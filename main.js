@@ -10,7 +10,7 @@ Robins Kumar Gupta
  */
 
 
-(function( window ){
+(function( window ) {
 	
 //main function for writing script..
 var _$,Splash;
@@ -39,7 +39,7 @@ var _$,Splash;
 	* Adding <i>method</i> method which makes that method available to all different objects.
 	* @method Object.method
 	* @param {string} name name of method
-	* @param {function} func function of the method
+	* @param {function|Any type} func function or any type that need to be added of the method.
 	* @returns {object} returns the same object on which method is added to faciliate chaining.
 	* @instance  
 	*/
@@ -51,31 +51,23 @@ var _$,Splash;
 		return this;
 	}
 	/**
-	 * Adds static methods  to object or functions
-	 * @method Object.static_method
-	 * @param {object} obj object containing all static methods.
-	 * @param {boolean} hasOwnProperty <h5>Default value is <i>false</i>.</h5>This flag if set true will add only those methods which  is truely a member of object and not found in prototype chain.
-	 * @returns {object} Returns object with  added static methods.
+	 * Adds static methods  to object or function.
+	 * @method Object.staticMethod
+	 * @param {string} name Name of function or object that need to be added.
+	 * @param {function|Any Type} func function or Any type which needs to be added.
+	 * @returns {object} Returns object with  added static method.
 	 * @instance
 	 */
-	Object.prototype.static_method=function(obj,hasOwnProperty=false){
-		for(name in obj){
-			if(hasOwnProperty){
-				//add only true methods
-				if(obj.hasOwnProperty(name)){ 
-				this[name]=obj[name];
-				}
-			}
-			else{
-				//add all found methods.
-				this[name]=obj[name];
-			}
-			return this;
+	Object.prototype.staticMethod=function(name,func){
+		
+		if(!this[name]){
+			this[name]=func;
 		}
+		return this;
+	}
 		
 	
 	
-
 	/**
 	 * @namespace
 	 * @name String
@@ -85,7 +77,7 @@ var _$,Splash;
 		 * Removes whitespace from the ends of a string.
 		 * @name trim
 		 * @function trim
-		 * @memberof String
+		 * @memberOf String.prototype
 		 * @returns {string} returns same string with removed spaces from the ends.
 		 */
 		function(){
@@ -98,28 +90,55 @@ var _$,Splash;
 }
 
 
-/** _$  Returns an HTML element or a collection of HTML elements .
- * @name _$
- * @class An abstract class
- * @constructor
- * @param {string} markers An HTML element or Class of element or Id of element.
- * @returns {An html elements array} 
+/** 
+ * @namespace  Its a Prototype that act as a primary container for all methods of Splash.js . 
  */
-_$ ={ };
+_$ = {
+	/**
+	 * @constructor
+	 * Returns html element object of class,id,name,tag name provided as css selectors.
+	 * @param {Array[string]} markers array of <i>HTML element</i>. 
+	 * @returns {object} Returns obect with "{object}.elements" property added to the object.Which contains array of html element objects. 
+	 */
+	Init:function(markers){
+		//This code needs to be modified.
+		this.elements=[];
+		for(var i=0,len=markers.length;i<len;++i){
+			var element = markers[i];
+			if(typeof element === 'string'){
+				element = document.getElementById(element);
+			}
+			this.elements.push(element);
+		}
+		return this;
+	},
+	
+	
+};
 
-
-
-
-_$.method('create_instance', 
-	  /** 
-	   * Creates an instance of class. <h5>_$.prototype.create_instance(<i>func</i>)</h5>
-	   * @name create_instance
-	   * @function create_instance
-	   * @memberof _$.prototype
-	   * @param {function} func function class which instance is to be created
-	   * @param {any type} addtional_arguments arguments for class initialization.
-	   * @returns {object} object with new prototype values set to its chain..
-	   */
+//Add only  those methods here which needs HTML ELEMENTS OBJECT to perform. 
+/* DOM.
+ * EVENTS.
+ * ELSE LIKE LOOP FOR LOOPING INSIDE ELEMENTS.
+ * AJAX AND WEBSOCKET.
+ * COLOR.
+ * ITERATORS.
+ * ANIMATION.
+ * CSS PROPERTIES.
+ * VISUAL EFFECTS.
+ */
+//NOTE _$.Init.prototype.createInstance method is only to expalin how documentation works for _$.Init.prototype methods  and has no use.So delete it when you start writing methods to Init. 
+_$.Init.method('createInstance', 
+	/** 
+	 * Creates an instance of class. <h5>_$.Init.createInstance(<i>func</i>)</h5>
+	 * @memberOf _$.Init.prototype
+	 * @name createInstance
+	 * @function createInstance
+	 * @instance
+	 * @param {function} func constructor method of which instance is to be created
+	 * @param {any type} additional_arguments arguments for class Initialization.
+	 * @returns {object} object with new prototype values set to its chain..
+	 */
 	function(func){
 		if (arguments.length>1){
 			//We are not using apply because new doesnot work for apply.So we are using bind.
@@ -128,10 +147,63 @@ _$.method('create_instance',
 			}
 		}
 		return new func();
-});
+		
+	}); //Form a chaining of methods here.. 
+
+
+
+//Define all static members here..using _$.staticMethod and forming a chain 
+/*
+ * JS ERRORS.
+ * JS COOKIES.
+ * JS DATE.
+ * JS STACK.
+ * JS QUEUE.
+ */
+
+_$.staticMethod('createInstance', 
+	/** 
+	 * Creates an instance of class. <h5>_$.Init.createInstance(<i>func</i>)</h5>
+	 * @memberOf _$
+	 * @name createInstance
+	 * @function createInstance
+	 * @static
+	 * @param {function} func constructor method of which instance is to be created
+	 * @param {any type} additional_arguments arguments for class initialization.
+	 * @returns {object} object with new prototype values set to its chain..
+	 */
+	function(func){
+		if (arguments.length>1){
+			//We are not using apply because new doesnot work for apply.So we are using bind.
+			for(var i=1;i<arguments.length;i++){
+				func=func.bind(this,arguments[i]);
+			}
+		}
+		return new func();
+		
+	}); //Form a chaining of methods here.. 
+
+	
+	
+
+
+//Creating prototypal inheritence of _$ Object
+Splash = Object.create(_$);
+
+
+
+//Overriding the Init method of _$
+Splash.Init = function(){
+	
+	return new Splash.Init(arguments);
+};
+
+
+
+
+
 		  
-//Creating a child object Splash  using _$ as prototype
-Splash=Object.create(_$)
+
 
 
 //Exposing Splash globally..
