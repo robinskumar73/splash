@@ -34,7 +34,10 @@ Model.datatype = {
 	},
 	
 	
-	enum: function()
+	enum: function(){
+		if 
+		
+	}
 			
 	
 
