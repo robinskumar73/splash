@@ -29,7 +29,7 @@ var _$,Splash;
 		Object.create = function (object) {
 			var func = function(){};
 			func.prototype = object;
-			return new func();
+			return new func;
 			};
 		}
 		
@@ -127,7 +127,7 @@ _$ = {
  * CSS PROPERTIES.
  * VISUAL EFFECTS.
  */
-//NOTE _$.Init.prototype.createInstance method is only to expalin how documentation works for _$.Init.prototype methods  and has no use.So delete it when you start writing methods to Init. 
+//NOTE _$.Init.prototype.createInstance method here is only to explain how documentation works for _$.Init.prototype methods  and has no use.So delete it when you start writing methods to Init. 
 _$.Init.method('createInstance', 
 	/** 
 	 * Creates an instance of class. <h5>_$.Init.createInstance(<i>func</i>)</h5>
